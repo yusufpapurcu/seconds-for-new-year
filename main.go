@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"strings"
+	"time"
 )
 
 const (
@@ -153,26 +156,33 @@ var numbers = []string{zero, one, two, three, four, five, six, seven, eight, nin
 
 func main() {
 
-	for i := 0; i < 30; i++ {
+	for i := 60; i > 0; i-- {
 		renderNumber(i)
+		time.Sleep(1000 * time.Millisecond)
+		clear := exec.Command("clear")
+		clear.Stdout = os.Stdout
+		err := clear.Run()
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
 func renderNumber(number int) {
 	if -1 < number && number < 10 {
-		fmt.Println(numbers[number])
+		fmt.Print(numbers[number], "\n")
 	} else if 9 < number && number < 100 {
 		second := number % 10
 		first := (number - second) / 10
-		fmt.Println("First :", first, "Second :", second)
+		//	fmt.Println("First :", first, "Second :", second)
 		firstArr := strings.Split(numbers[first], "\n")
 		secondArr := strings.Split(numbers[second], "\n")
-
+		fmt.Print("\n\n")
 		for i := 0; i < 13; i++ {
 			strFirst := firstArr[i]
 			strSecond := secondArr[i]
 
-			fmt.Print(strFirst, " ")
+			fmt.Print("\t\t\t", strFirst, "  ")
 			if len(strFirst) < 22 {
 				for a := 0; a < 22-len(strFirst); a++ {
 					//	fmt.Print("a")
