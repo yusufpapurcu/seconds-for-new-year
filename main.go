@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -159,7 +160,12 @@ func main() {
 	for i := 60; i > 0; i-- {
 		renderNumber(i)
 		time.Sleep(1000 * time.Millisecond)
-		clear := exec.Command("clear")
+		var clear *exec.Cmd
+		if runtime.GOOS == "windows" {
+			clear = exec.Command("cmd", "/c", "cls")
+		} else {
+			clear = exec.Command("clear")
+		}
 		clear.Stdout = os.Stdout
 		err := clear.Run()
 		if err != nil {
