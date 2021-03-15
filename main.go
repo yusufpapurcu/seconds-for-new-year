@@ -200,5 +200,3 @@ func renderNumber(number int) {
 
 	}
 }
-
-// █ █ █ █ █ █
